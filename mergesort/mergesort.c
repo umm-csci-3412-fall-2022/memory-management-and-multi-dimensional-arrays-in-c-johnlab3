@@ -13,12 +13,12 @@ void mergesort(int size, int values[]) {
   // `malloc/calloc` and `free`, so make sure you explicitly
   // allocate any new arrays that you need, even if you
   // might not strictly need to.
-  mergeSortRange(values, 0, size);
+  mergeSortRange(values, 0, size - 1);
   return;
 }
 
 void mergeSortRange(int* input, int startIndex, int endIndex) {
-  if (!needsSorting(endIndex - startIndex)) {
+  if (!needsSorting(endIndex - startIndex + 1)) {
     return;
   }
   int midIndex = (endIndex + startIndex) / 2;
@@ -29,7 +29,7 @@ void mergeSortRange(int* input, int startIndex, int endIndex) {
 }
 
 void mergeRanges(int* input, int startIndex, int midIndex, int endIndex) {
-  int rangeSize = endIndex - startIndex;
+  int rangeSize = endIndex - startIndex + 1;
   int* sorted = (int*) malloc(rangeSize * sizeof(int));
   int firstIndex = startIndex;
   int secondIndex = midIndex;
