@@ -1,5 +1,5 @@
 #include "mergesort.h"
-#include <cstdlib>
+#include <stdlib.h>
 
 int needsSorting(int rangeSize);
 void mergeSortRange(int* input, int startIndex, int endIndex);
@@ -13,12 +13,13 @@ void mergesort(int size, int values[]) {
   // `malloc/calloc` and `free`, so make sure you explicitly
   // allocate any new arrays that you need, even if you
   // might not strictly need to.
-  mergeSortRange(values, 0, size - 1);
+  mergeSortRange(values, 0, size);
   return;
 }
 
 void mergeSortRange(int* input, int startIndex, int endIndex) {
-  if (!needsSorting(endIndex - startIndex + 1)) {
+  //does the sort range on startIndex (inclusive) to endIndex (exclusive).
+  if (!needsSorting(endIndex - startIndex)) {
     return;
   }
   int midIndex = (endIndex + startIndex) / 2;
@@ -29,14 +30,15 @@ void mergeSortRange(int* input, int startIndex, int endIndex) {
 }
 
 void mergeRanges(int* input, int startIndex, int midIndex, int endIndex) {
-  int rangeSize = endIndex - startIndex + 1;
+  //merges from startIndex (inclusive) to endIndex (exclusive).
+  int rangeSize = endIndex - startIndex;
   int* sorted = (int*) malloc(rangeSize * sizeof(int));
   int firstIndex = startIndex;
   int secondIndex = midIndex;
   int copyIndex = 0;
 
   while (copyIndex < rangeSize) {
-    if (firstIndex < midIndex && (secondIndex > endIndex || input[firstIndex] < input[secondIndex])) {
+    if (firstIndex < midIndex && (secondIndex >= endIndex || input[firstIndex] < input[secondIndex])) {
       sorted[copyIndex] = input[firstIndex];
       ++firstIndex;
     }
