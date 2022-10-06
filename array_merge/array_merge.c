@@ -2,7 +2,7 @@
 #include "../mergesort/mergesort.h"
 #include <stdlib.h>
 
-int* array_merge(int num_arrays, int* sizes, int** values) {
+int* array_merge_old(int num_arrays, int* sizes, int** values) {
   //Figure out the total number of elements for the new array
   //This starts at 1 to account for the first element, being the array size
   //Note
@@ -48,4 +48,29 @@ int* array_merge(int num_arrays, int* sizes, int** values) {
   output = (int*) realloc(output, (write_position - 1) * sizeof(int));
   free(positions);
   return output;
+}
+
+int* array_merge(int num_arrays, int* sizes, int** values) {
+  //Find the total length of all of the arrays
+  int total_size = 0;
+
+  for (int i = 0; i < num_arrays; i++) {
+    total_size += sizes[i];
+  }
+
+  int* merged_array = (int*) malloc(total_size * sizeof(int));
+  int insert_position = 0;
+  for (int i = 0; i < num_arrays; i++) {
+   for (int j = 0; j < sizes[i]; j++) {
+     merged_array[insert_position] = values[i][j];
+     insert_position++;
+   }
+  }
+  mergesort(merged_array, total_size);
+  int unique_count = !!total_size;
+
+  for (int i = 1; i < total_size; i++) {
+    unique_count += (merged_array[i] != merged_array[i - 1]);
+  }
+
 }
